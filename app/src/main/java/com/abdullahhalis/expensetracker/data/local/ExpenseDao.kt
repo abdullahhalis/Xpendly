@@ -16,14 +16,14 @@ interface ExpenseDao {
     suspend fun  deleteExpenseById(id: Long)
 
     @Query("SELECT * FROM expenses ORDER BY dateInMillis DESC")
-    fun getAllExpense(): Flow<List<ExpenseEntity>>
+    fun getAllExpenses(): Flow<List<ExpenseEntity>>
 
     @Query("""
         SELECT * FROM expenses
         WHERE dateInMillis BETWEEN :startDate AND :endDate
         ORDER BY dateInMillis DESC
     """)
-    fun getByDateRange(startDate: Long, endDate: Long): Flow<List<ExpenseEntity>>
+    fun getExpenseByDateRange(startDate: Long, endDate: Long): Flow<List<ExpenseEntity>>
 
     @Query("SELECT SUM(amount) FROM expenses")
     fun getTotalExpense(): Flow<Double?>
@@ -32,5 +32,5 @@ interface ExpenseDao {
         SELECT SUM(amount) FROM expenses
         WHERE dateInMillis BETWEEN :startDate AND :endDate
     """)
-    fun getTotalByDateRange(startDate: Long, endDate: Long): Flow<Double?>
+    fun getTotalExpenseByDateRange(startDate: Long, endDate: Long): Flow<Double?>
 }
