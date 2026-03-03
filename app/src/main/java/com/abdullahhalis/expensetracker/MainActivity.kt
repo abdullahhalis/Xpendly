@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            ExpenseTrackerTheme {
+            ExpenseTrackerTheme(dynamicColor = false) {
                 val navController = rememberNavController()
                 AppNavigation(navController)
             }
