@@ -15,7 +15,7 @@ enum class MyCategory(
     val icon: ImageVector,
     val color: Color
 ) {
-    FOOD("Food", Icons.Rounded.Restaurant, Color(0xFFE07B39)),
+    FOOD("Food & Drink", Icons.Rounded.Restaurant, Color(0xFFE07B39)),
     TRANSPORT("Transport", Icons.Rounded.DirectionsCar, Color(0xFF3D8BF8)),
     SHOPPING("Shopping", Icons.Rounded.ShoppingBag, Color(0xFF2ECC9A)),
     BILL("Bill", Icons.Rounded.Receipt, Color(0xFFE84C6A)),
@@ -24,7 +24,7 @@ enum class MyCategory(
 
     companion object {
         fun getByLabel(label: String): MyCategory = when(label) {
-            "Food" -> FOOD
+            "Food & Drink" -> FOOD
             "Transport" -> TRANSPORT
             "Shopping" -> SHOPPING
             "Bill" -> BILL
