@@ -40,7 +40,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -52,6 +51,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.abdullahhalis.expensetracker.ui.theme.ExpenseTrackerTheme
@@ -63,16 +64,13 @@ import com.abdullahhalis.expensetracker.ui.utils.toFormattedDate
 fun AddExpenseScreen(
     navController: NavHostController,
     modifier: Modifier = Modifier,
+    viewModel: AddExpenseViewModel = hiltViewModel()
 ) {
-    var amountInput by remember { mutableStateOf("") }
-    var titleInput by remember { mutableStateOf("") }
-    var noteInput by remember { mutableStateOf("") }
-    var selectedCategory by remember { mutableStateOf("Food & Drink") }
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     var showDatePicker by remember { mutableStateOf(false) }
-    var selectedDateInMillis by remember { mutableLongStateOf(System.currentTimeMillis()) }
     val datePickerState = rememberDatePickerState(
-        initialSelectedDateMillis = selectedDateInMillis
+        initialSelectedDateMillis = uiState.dateInMillis
     )
 
     Scaffold(
@@ -100,7 +98,13 @@ fun AddExpenseScreen(
         },
         bottomBar = {
             Button(
-                onClick = {},
+                onClick = {
+                    viewModel.saveExpense(
+                        onSuccess = {
+                            navController.popBackStack()
+                        }
+                    )
+                },
                 shape = RoundedCornerShape(12.dp),
                 colors = ButtonDefaults.buttonColors().copy(
                     containerColor = MaterialTheme.colorScheme.primary,
@@ -134,7 +138,7 @@ fun AddExpenseScreen(
                     TextButton(
                         onClick = {
                             datePickerState.selectedDateMillis?.let {
-                                selectedDateInMillis = it
+                                viewModel.onDateChange(it)
                             }
                             showDatePicker = false
                         }
@@ -153,22 +157,20 @@ fun AddExpenseScreen(
         }
 
         AddExpenseContent(
-            amountInput = amountInput,
-            titleInput = titleInput,
-            noteInput = noteInput,
-            selectedDateInMillis = selectedDateInMillis,
-            selectedCategory = MyCategory.getByLabel(selectedCategory),
-            onTitleChange = { titleInput = it},
-            onNoteChange = { noteInput = it},
+            amountInput = uiState.amount,
+            titleInput = uiState.title,
+            noteInput = uiState.note,
+            selectedDateInMillis = uiState.dateInMillis,
+            selectedCategory = uiState.category,
+            onTitleChange = viewModel::onTitleChange,
+            onNoteChange = viewModel::onNoteChange,
             onAmountChange = { newValue ->
                 if (newValue.all { it.isDigit() }) {
-                    amountInput = newValue
+                    viewModel.onAmountChange(newValue)
                 }
             },
             onDateClick = { showDatePicker = true },
-            onCategorySelected = { category ->
-                selectedCategory = category.label
-            },
+            onCategorySelected = viewModel::onCategoryChange,
             modifier = modifier
                 .verticalScroll(rememberScrollState())
                 .padding(contentPadding)

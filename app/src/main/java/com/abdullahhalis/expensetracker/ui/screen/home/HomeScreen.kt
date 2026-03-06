@@ -17,6 +17,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,6 +25,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.abdullahhalis.expensetracker.R
@@ -39,8 +42,14 @@ import com.abdullahhalis.expensetracker.ui.utils.DateOption
 @Composable
 fun HomeScreen(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
+    val expenses by viewModel.expenses.collectAsStateWithLifecycle()
+    val totalExpense by viewModel.totalExpense.collectAsStateWithLifecycle()
+    val selectedFilter by viewModel.selectedFilter.collectAsStateWithLifecycle()
+    val selectedListFilter by viewModel.selectedListFilter.collectAsStateWithLifecycle()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -68,11 +77,12 @@ fun HomeScreen(
         },
     ) { contentPadding ->
         HomeContent(
-            dummyExpenses,
-            totalExpense = 2_000_000.0,
-            dateOption = DateOption.MONTH,
-            listDateOption = DateOption.DAY,
-            {},
+            expenses,
+            totalExpense = totalExpense,
+            selectedFilter = selectedFilter,
+            selectedListFilter = selectedListFilter,
+            onFilterSelected = viewModel::onFilterSelected,
+            onListFilterSelected = viewModel::onListFilterSelected,
             navigateToDetail = { id ->
               navController.navigate(Screen.Detail.createRoute(id))
             },
@@ -85,9 +95,10 @@ fun HomeScreen(
 fun HomeContent(
     expenses: List<ExpenseEntity>,
     totalExpense: Double,
-    dateOption: DateOption,
-    listDateOption: DateOption,
-    onOptionSelected: (DateOption) -> Unit,
+    selectedFilter: DateOption,
+    selectedListFilter: DateOption,
+    onFilterSelected: (DateOption) -> Unit,
+    onListFilterSelected: (DateOption) -> Unit,
     navigateToDetail: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -99,8 +110,8 @@ fun HomeContent(
         item {
             TotalExpenseCard(
                 totalExpense,
-                dateOption,
-                onOptionSelected,
+                dateOption = selectedFilter,
+                onOptionSelected = onFilterSelected,
             )
         }
 
@@ -117,8 +128,8 @@ fun HomeContent(
                 )
 
                 DateDropDown(
-                    listDateOption,
-                    {}
+                    selectedListFilter,
+                    onOptionSelected = onListFilterSelected
                 )
             }
         }
