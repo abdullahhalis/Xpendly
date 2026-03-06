@@ -7,9 +7,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.abdullahhalis.expensetracker.ui.screen.AddExpenseScreen
-import com.abdullahhalis.expensetracker.ui.screen.DetailExpenseScreen
-import com.abdullahhalis.expensetracker.ui.screen.HomeScreen
+import com.abdullahhalis.expensetracker.ui.screen.add.AddExpenseScreen
+import com.abdullahhalis.expensetracker.ui.screen.detail.DetailExpenseScreen
+import com.abdullahhalis.expensetracker.ui.screen.home.HomeScreen
 
 sealed class Screen(val route: String) {
     object Home: Screen("home")

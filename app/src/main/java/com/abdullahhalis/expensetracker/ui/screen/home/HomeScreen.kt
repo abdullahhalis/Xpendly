@@ -1,4 +1,4 @@
-package com.abdullahhalis.expensetracker.ui.screen
+package com.abdullahhalis.expensetracker.ui.screen.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues

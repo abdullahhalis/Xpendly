@@ -1,4 +1,4 @@
-package com.abdullahhalis.expensetracker.ui.screen
+package com.abdullahhalis.expensetracker.ui.screen.add
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

@@ -1,4 +1,4 @@
-package com.abdullahhalis.expensetracker.ui.screen
+package com.abdullahhalis.expensetracker.ui.screen.detail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -45,6 +45,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.abdullahhalis.expensetracker.ui.screen.home.dummyExpenses
 import com.abdullahhalis.expensetracker.ui.theme.ExpenseTrackerTheme
 import com.abdullahhalis.expensetracker.ui.utils.MyCategory
 import com.abdullahhalis.expensetracker.ui.utils.toFormattedDate
