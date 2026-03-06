@@ -34,7 +34,6 @@ import com.abdullahhalis.expensetracker.ui.components.TotalExpenseCard
 import com.abdullahhalis.expensetracker.ui.navigation.Screen
 import com.abdullahhalis.expensetracker.ui.theme.ExpenseTrackerTheme
 import com.abdullahhalis.expensetracker.ui.utils.DateOption
-import com.abdullahhalis.expensetracker.ui.utils.MyCategory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -74,6 +73,9 @@ fun HomeScreen(
             dateOption = DateOption.MONTH,
             listDateOption = DateOption.DAY,
             {},
+            navigateToDetail = { id ->
+              navController.navigate(Screen.Detail.createRoute(id))
+            },
             modifier.padding(contentPadding)
         )
     }
@@ -86,6 +88,7 @@ fun HomeContent(
     dateOption: DateOption,
     listDateOption: DateOption,
     onOptionSelected: (DateOption) -> Unit,
+    navigateToDetail: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -123,7 +126,7 @@ fun HomeContent(
         items(expenses, key = { expense -> expense.id}) { expense ->
             ExpenseItem(
                 expense,
-                {}
+                { navigateToDetail(expense.id) }
             )
         }
     }
@@ -143,10 +146,18 @@ private fun HomeScreenPrev() {
 
 val dummyExpenses = listOf(
     ExpenseEntity(
+        id = 0,
+        title = "Gitar Akustik",
+        amount = 200000.0,
+        category = "Other",
+        note = "belajar gitar",
+        dateInMillis = System.currentTimeMillis() - 3 * 86_400_000L
+    ),
+    ExpenseEntity(
         id = 1,
         title = "Starbucks Coffee",
         amount = 65000.0,
-        category = "Food",
+        category = "Food & Drink",
         note = "",
         dateInMillis = System.currentTimeMillis()
     ),
@@ -179,14 +190,6 @@ val dummyExpenses = listOf(
         title = "Listrik PLN",
         amount = 250000.0,
         category = "Bill",
-        note = "",
-        dateInMillis = System.currentTimeMillis() - 3 * 86_400_000L
-    ),
-    ExpenseEntity(
-        id = 6,
-        title = "Mie Ayam Bang Tigor",
-        amount = 15000.0,
-        category = MyCategory.FOOD.name,
         note = "",
         dateInMillis = System.currentTimeMillis() - 3 * 86_400_000L
     ),

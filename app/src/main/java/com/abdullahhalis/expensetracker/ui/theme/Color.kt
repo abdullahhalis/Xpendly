@@ -7,3 +7,6 @@ val Purple = Color(0xFF7C3AED)
 
 val Teal = Color(0xFF14B8A6)
 val TealDark = Color(0xFF2DD4BF)
+
+val ErrorRed = Color(0xFFE53935)
+val ErrorRedDark = Color(0xFFEF5350)
