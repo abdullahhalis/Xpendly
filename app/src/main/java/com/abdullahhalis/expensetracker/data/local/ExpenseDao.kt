@@ -18,6 +18,9 @@ interface ExpenseDao {
     @Query("SELECT * FROM expenses ORDER BY dateInMillis DESC")
     fun getAllExpenses(): Flow<List<ExpenseEntity>>
 
+    @Query("SELECT * FROM expenses WHERE id = :id")
+    fun getExpenseById(id: Long): Flow<ExpenseEntity?>
+
     @Query("""
         SELECT * FROM expenses
         WHERE dateInMillis BETWEEN :startDate AND :endDate
