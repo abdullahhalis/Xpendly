@@ -46,7 +46,7 @@ fun DateDropDown(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(
-                text = dateOption.displayLabel,
+                text = dateOption.label,
                 style = MaterialTheme.typography.bodySmall,
                 color = textColor
             )
@@ -66,7 +66,7 @@ fun DateDropDown(
                 DropdownMenuItem(
                     text = {
                         Text(
-                            text = option.displayLabel,
+                            text = option.label,
                             color = if (option == dateOption)
                                 MaterialTheme.colorScheme.primary
                             else

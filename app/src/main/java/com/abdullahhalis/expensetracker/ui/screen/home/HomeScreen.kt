@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -34,7 +33,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.abdullahhalis.expensetracker.R
 import com.abdullahhalis.expensetracker.data.local.ExpenseEntity
 import com.abdullahhalis.expensetracker.ui.components.DateDropDown
@@ -200,59 +198,30 @@ private fun HomeScreenPrev() {
     ExpenseTrackerTheme(
         darkTheme = false
     ) {
-        HomeScreen(
-            rememberNavController()
-        )
+        Scaffold(
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = {},
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = Color.White
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Add,
+                        contentDescription = "add expense",
+                    )
+                }
+            },
+        ) { contentPadding ->
+            HomeContent(
+                expenses = emptyList(),
+                totalExpense = 0.0,
+                selectedFilter = DateOption.MONTH,
+                selectedListFilter = DateOption.All,
+                {},
+                {},
+                {},
+                modifier = Modifier.padding(contentPadding)
+            )
+        }
     }
 }
-
-val dummyExpenses = listOf(
-    ExpenseEntity(
-        id = 0,
-        title = "Gitar Akustik",
-        amount = 200000.0,
-        category = "Other",
-        note = "belajar gitar",
-        dateInMillis = System.currentTimeMillis() - 3 * 86_400_000L
-    ),
-    ExpenseEntity(
-        id = 1,
-        title = "Starbucks Coffee",
-        amount = 65000.0,
-        category = "Food & Drink",
-        note = "",
-        dateInMillis = System.currentTimeMillis()
-    ),
-    ExpenseEntity(
-        id = 2,
-        title = "Gojek Ride",
-        amount = 24000.0,
-        category = "Transport",
-        note = "",
-        dateInMillis = System.currentTimeMillis() - 86_400_000L // yesterday
-    ),
-    ExpenseEntity(
-        id = 3,
-        title = "Netflix",
-        amount = 54000.0,
-        category = "Entertainment",
-        note = "",
-        dateInMillis = System.currentTimeMillis() - 86_400_000L
-    ),
-    ExpenseEntity(
-        id = 4,
-        title = "Indomaret",
-        amount = 45000.0,
-        category = "Shopping",
-        note = "",
-        dateInMillis = System.currentTimeMillis() - 2 * 86_400_000L
-    ),
-    ExpenseEntity(
-        id = 5,
-        title = "Listrik PLN",
-        amount = 250000.0,
-        category = "Bill",
-        note = "",
-        dateInMillis = System.currentTimeMillis() - 3 * 86_400_000L
-    ),
-)

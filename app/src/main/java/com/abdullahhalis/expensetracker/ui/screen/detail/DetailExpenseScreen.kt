@@ -54,7 +54,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.abdullahhalis.expensetracker.ui.theme.ExpenseTrackerTheme
 import com.abdullahhalis.expensetracker.ui.utils.MyCategory
 import com.abdullahhalis.expensetracker.ui.utils.toFormattedDate
@@ -375,9 +374,15 @@ private fun DetailExpenseScreenPrev() {
     ExpenseTrackerTheme(
         darkTheme = false
     ) {
-        DetailExpenseScreen(
-            expenseId = 1,
-            navController = rememberNavController()
-        )
+        Scaffold { padding ->
+            ExpenseDetailsContent(
+                "Nasi Padang",
+                15000.0,
+                MyCategory.FOOD,
+                1772320216275L,
+                "",
+                modifier = Modifier.padding(padding).padding(16.dp)
+            )
+        }
     }
 }
