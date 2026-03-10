@@ -66,7 +66,7 @@ fun DateDropDown(
                 DropdownMenuItem(
                     text = {
                         Text(
-                            text = option.label,
+                            text = option.displayLabel,
                             color = if (option == dateOption)
                                 MaterialTheme.colorScheme.primary
                             else

@@ -1,8 +1,10 @@
 package com.abdullahhalis.expensetracker.ui.screen.home
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -160,11 +162,34 @@ fun HomeContent(
             }
         }
 
-        items(expenses, key = { expense -> expense.id}) { expense ->
-            ExpenseItem(
-                expense,
-                { navigateToDetail(expense.id) }
-            )
+        if (expenses.isEmpty()) {
+            val emptyMessage = when(selectedListFilter) {
+                DateOption.DAY -> "No expenses today"
+                DateOption.WEEK -> "No expenses this week"
+                DateOption.MONTH -> "No expenses this month"
+                DateOption.YEAR -> "No expenses this year"
+                else -> "No expenses yet"
+            }
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 32.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        emptyMessage,
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
+                }
+            }
+        } else {
+            items(expenses, key = { expense -> expense.id}) { expense ->
+                ExpenseItem(
+                    expense,
+                    { navigateToDetail(expense.id) }
+                )
+            }
         }
     }
 }
