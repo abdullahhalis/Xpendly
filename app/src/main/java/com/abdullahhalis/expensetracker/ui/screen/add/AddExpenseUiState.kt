@@ -7,5 +7,7 @@ data class AddExpenseUiState(
     val amount: String = "",
     val note: String = "",
     val category: MyCategory = MyCategory.OTHER,
-    val dateInMillis: Long = System.currentTimeMillis()
+    val dateInMillis: Long = System.currentTimeMillis(),
+    val amountError: String? = null,
+    val titleError: String? = null
 )

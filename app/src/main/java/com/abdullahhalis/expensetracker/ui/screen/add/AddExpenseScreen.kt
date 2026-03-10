@@ -172,6 +172,8 @@ fun AddExpenseScreen(
             amountInput = uiState.amount,
             titleInput = uiState.title,
             noteInput = uiState.note,
+            amountError = uiState.amountError,
+            titleError = uiState.titleError,
             selectedDateInMillis = uiState.dateInMillis,
             selectedCategory = uiState.category,
             onTitleChange = viewModel::onTitleChange,
@@ -198,6 +200,8 @@ fun AddExpenseContent(
     amountInput: String,
     titleInput: String,
     noteInput: String,
+    amountError: String?,
+    titleError: String?,
     selectedDateInMillis: Long,
     selectedCategory: MyCategory,
     onAmountChange: (String) -> Unit,
@@ -221,6 +225,7 @@ fun AddExpenseContent(
         )
         TextField(
             value = amountInput,
+            isError = amountError != null,
             onValueChange = onAmountChange,
             textStyle = MaterialTheme.typography.titleLarge.copy(
                 textAlign = TextAlign.Center,
@@ -229,6 +234,9 @@ fun AddExpenseContent(
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number
             ),
+            supportingText = {
+                amountError?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+            },
             placeholder = {
                 Text(
                     "0",
@@ -252,6 +260,10 @@ fun AddExpenseContent(
         OutlinedTextField(
             value = titleInput,
             onValueChange = onTitleChange,
+            isError = titleError != null,
+            supportingText = {
+                titleError?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+            },
             placeholder = {
                 Text(
                     "e.g. Nasi Padang",

@@ -20,11 +20,12 @@ class AddExpenseViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     fun onTitleChange(title: String) {
-        _uiState.update { it.copy(title = title) }
+        _uiState.update { it.copy(title = title, titleError = null) }
     }
 
     fun onAmountChange(amount: String) {
-        _uiState.update { it.copy(amount = amount) }
+        val filtered = amount.trimStart('0')
+        _uiState.update { it.copy(amount = filtered, amountError = null) }
     }
 
     fun onNoteChange(note: String) {
@@ -41,7 +42,20 @@ class AddExpenseViewModel @Inject constructor(
 
     fun saveExpense(onSuccess: () -> Unit) {
         val state = _uiState.value
-        if (state.title.isBlank() || state.amount.isBlank()) return
+
+        var hasError = false
+
+        if (state.title.isBlank()) {
+            _uiState.update { it.copy(titleError = "Title cannot be empty") }
+            hasError = true
+        }
+
+        if (state.amount.isBlank() || (state.amount.toDoubleOrNull() ?: 0.0) <= 0) {
+            _uiState.update { it.copy(amountError = "Amount must be greater than 0") }
+            hasError = true
+        }
+
+        if (hasError) return
 
         viewModelScope.launch {
             repository.insertExpense(
