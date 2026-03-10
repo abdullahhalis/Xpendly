@@ -174,6 +174,9 @@ fun DetailExpenseScreen(
                                 Button(
                                     onClick = {
                                         viewModel.deleteExpense(data.id) {
+                                            navController.previousBackStackEntry
+                                                ?.savedStateHandle
+                                                ?.set("snackbar_message", "Expense deleted successfully")
                                             navController.popBackStack()
                                         }
                                         showDeleteDialog = false

@@ -101,6 +101,9 @@ fun AddExpenseScreen(
                 onClick = {
                     viewModel.saveExpense(
                         onSuccess = {
+                            navController.previousBackStackEntry
+                                ?.savedStateHandle
+                                ?.set("snackbar_message", "Expense added successfully")
                             navController.popBackStack()
                         }
                     )
