@@ -7,9 +7,10 @@ Expense tracker app built with Kotlin & Jetpack Compose
 - Room Database
 - Hilt Dependency Injection
 - StateFlow + Coroutines
+- DataStore Preferences
 
 ## Features
 - Add, view, and delete expenses
-- Filter by day, week, month, year
-- Total expense summary
-- Light & dark theme
+- Filter by day, week, month, year, or all time
+- Total expense summary per filter
+- Theme setting (Light, Dark, Auto)
