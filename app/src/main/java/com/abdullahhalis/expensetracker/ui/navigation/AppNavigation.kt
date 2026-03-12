@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 import com.abdullahhalis.expensetracker.ui.screen.add.AddExpenseScreen
 import com.abdullahhalis.expensetracker.ui.screen.detail.DetailExpenseScreen
 import com.abdullahhalis.expensetracker.ui.screen.home.HomeScreen
+import com.abdullahhalis.expensetracker.ui.screen.settings.SettingsScreen
 
 sealed class Screen(val route: String) {
     object Home: Screen("home")
@@ -17,6 +18,7 @@ sealed class Screen(val route: String) {
     object Detail: Screen("detail/{expenseId}") {
         fun createRoute(expenseId: Long) = "detail/$expenseId"
     }
+    object Settings: Screen("settings")
 }
 
 @Composable
@@ -46,6 +48,9 @@ fun AppNavigation(
                 expenseId = expenseId,
                 navController = navController
             )
+        }
+        composable(Screen.Settings.route) {
+            SettingsScreen(navController)
         }
     }
 }
