@@ -13,23 +13,28 @@ import com.abdullahhalis.expensetracker.ui.screen.home.HomeScreen
 import com.abdullahhalis.expensetracker.ui.screen.settings.SettingsScreen
 
 sealed class Screen(val route: String) {
-    object Home: Screen("home")
-    object AddExpense: Screen("add_expense")
-    object Detail: Screen("detail/{expenseId}") {
+    object Home : Screen("home")
+    object AddExpense : Screen("add_expense")
+    object Detail : Screen("detail/{expenseId}") {
         fun createRoute(expenseId: Long) = "detail/$expenseId"
     }
-    object Settings: Screen("settings")
+
+    object Settings : Screen("settings")
 }
 
 @Composable
 fun AppNavigation(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = Screen.Home.route
+        startDestination = Screen.Home.route,
+        enterTransition = NavAnimation.forwardEnter,
+        exitTransition = NavAnimation.forwardExit,
+        popEnterTransition = NavAnimation.backEnter,
+        popExitTransition = NavAnimation.backExit
     ) {
         composable(Screen.Home.route) {
             HomeScreen(navController)
