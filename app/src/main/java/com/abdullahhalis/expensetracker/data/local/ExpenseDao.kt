@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -12,7 +13,10 @@ interface ExpenseDao {
     suspend fun insertExpense(expense: ExpenseEntity)
 
     @Query("DELETE FROM expenses WHERE id = :id")
-    suspend fun  deleteExpenseById(id: Long)
+    suspend fun deleteExpenseById(id: Long)
+
+    @Update
+    suspend fun updateExpense(expense: ExpenseEntity)
 
     @Query("SELECT * FROM expenses ORDER BY dateInMillis DESC")
     fun getAllExpenses(): Flow<List<ExpenseEntity>>
@@ -20,19 +24,23 @@ interface ExpenseDao {
     @Query("SELECT * FROM expenses WHERE id = :id")
     fun getExpenseById(id: Long): Flow<ExpenseEntity?>
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM expenses
         WHERE dateInMillis BETWEEN :startDate AND :endDate
         ORDER BY dateInMillis DESC
-    """)
+    """
+    )
     fun getExpenseByDateRange(startDate: Long, endDate: Long): Flow<List<ExpenseEntity>>
 
     @Query("SELECT SUM(amount) FROM expenses")
     fun getTotalExpense(): Flow<Double?>
 
-    @Query("""
+    @Query(
+        """
         SELECT SUM(amount) FROM expenses
         WHERE dateInMillis BETWEEN :startDate AND :endDate
-    """)
+    """
+    )
     fun getTotalExpenseByDateRange(startDate: Long, endDate: Long): Flow<Double?>
 }
