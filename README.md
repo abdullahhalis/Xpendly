@@ -21,7 +21,22 @@ Core (MVP):
 
 ---
 
+## 📱 Preview
+
+### Demo
+
+<img src="docs/demo/demo.gif" alt="demo" width="250">
+
+### Screenshots
+
+| Home Screen| Add Expense| Detail Screen| Update Expense|
+|:------------:|:------------:|:--------------:|:---------------:|
+| <img src="docs/screenshots/home.jpg" width="300"> | <img src="docs/screenshots/add.jpg" width="300"> | <img src="docs/screenshots/detail-dark.jpg" width="300"> | <img src="docs/screenshots/update-dark.jpg" width="300"> |
+
+---
+
 ## 🛠️ Tech Stack
+
 - **Language** : Kotlin
 - **UI** : Jetpack Compose + Material 3
 - **Architecture** : MVVM + Clean Architecture (no domain layer)
@@ -30,42 +45,72 @@ Core (MVP):
 - **Preferences** : DataStore
 
 ---
+
 ## 🏗️ Architecture
-This project uses MVVM to separate UI, business logic, and data layer for better scalability, and follows Clean Architecture principles without a domain layer, repositories are injected directly into ViewModels for simplicity
+
+This project uses MVVM to separate UI, business logic, and data layer for better scalability, and
+follows Clean Architecture principles without a domain layer, repositories are injected directly
+into ViewModels for simplicity
+
+```mermaid
+flowchart LR
+  UI[Compose UI] --> VM[ViewModel]
+  VM --> Repo[Repository]
+  Repo --> DB[Room Database]
+  VM --> Pref[DataStore]
+
+  subgraph UI Layer
+  direction TB
+  UI
+  VM
+  end
+
+  subgraph Data Layer
+  direction TB
+  Repo
+  DB
+  Pref
+  end
+```
 
 UI Layer:
+
 - Jetpack Compose screens
 - State collection from ViewModel
 - Stateless composables
-- Business logic inside ViewModel
 - State management using StateFlow
 
 Data Layer:
+
 - Repository pattern
 - Room database
 - DataStore preferences
 
 ---
+
 ## 🧠 Technical Highlights
+
 - Implemented reactive filtering using StateFlow
 - Used repository pattern for clean data abstraction
 - Applied dependency injection with Hilt
-- Implemented offline-first data handling
 - Structured Compose UI into reusable components
 
 ---
+
 ## ⚡ Technical Challenges
+
 Challenges faced during development:
+
 - Managing recomposition when filters change
 - Maintaining single source of truth
 - Designing reusable Compose components
 - Handling date filtering efficiently
 
 ---
-## 🔥 Future Improvements
-- Edit expense feature
+
+## 🔥 Future Improvements (planned)
+
 - Search functionality
 - Expense analytics charts
 - Budget limit alerts
 - Cloud backup
-- Unit testing
